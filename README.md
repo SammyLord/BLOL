@@ -101,4 +101,4 @@ This tool is provided for educational and defensive security purposes. Users are
 
 ## License
 
-Use at your own risk. Ensure compliance with your organization's security policies before deployment.
+SPL-R5
