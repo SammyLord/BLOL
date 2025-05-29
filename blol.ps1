@@ -14,18 +14,44 @@ try {
     exit 1
 }
 
-# Exception list - binaries to NOT block
+# Exception list - binaries to NOT block (note that signed UWPs typically aren't blocked!)
+# Sane defaults are listed by default, although you might want to change them depending
+# on what you do!
 $exceptions = @(
-    "chrome.exe",
-    "AppInstaller.exe", 
-    "wsl.exe",
-    "cmd.exe",
-    "update.exe",
-    "winget.exe",
-    "msedge.exe",
-    "bash.exe",
-    "explorer.exe",
-    "ssh.exe"
+    "chrome.exe",          # Google Chrome
+    "AppInstaller.exe",    # 3rd Party UWP installer tool
+    "update.exe",          # Windows Updates (?)
+    "winget.exe",          # WinGet package manager
+    "msedge.exe",          # Microsoft Edge browser
+    "ssh.exe",             # Secure Shell (SSH) Client
+    "cmd.exe",             # Command Prompt
+    "powershell.exe",      # Windows PowerShell
+    "pwsh.exe",            # PowerShell Core
+    "wsl.exe",             # Windows Subsystem for Linux
+    "bash.exe",            # WSL Bash Shell
+    "explorer.exe",        # File Explorer
+    "mshta.exe",           # HTML Application Host (rarely used legitimately)
+    "schtasks.exe",        # Task Scheduler CLI
+    "reg.exe",             # Registry Editor CLI
+    "certutil.exe",        # Certificate Utility (used for downloads, encoding)
+    "bitsadmin.exe",       # BITS job manager (deprecated, still present)    
+    "robocopy.exe",        # Robust file copy tool
+    "netstat.exe",         # Displays network connections
+    "ipconfig.exe",        # Shows IP configuration
+    "net.exe",             # Network commands
+    "arp.exe",             # Address Resolution Protocol info
+    "fsutil.exe",          # File system utility
+    "type.exe",            # Displays file contents
+    "findstr.exe",         # Searches for strings in files
+    "where.exe",           # Finds files in PATH
+    "forfiles.exe",        # Selects files by criteria (used in scripting)
+    "chromium.exe",        # Chromium Browser
+    "firefox.exe",         # Firefox Browser
+    "nightly.exe",         # Firefox Nightly
+    "librewolf.exe",       # LibreWolf Browser
+    "javaw.exe",           # Java (as used by Minecraft)
+    "java.exe",            # Java (as used by Minecraft servers)
+    "MinecraftLauncher.exe"# Minecraft Launcher (listed just in case.)
 )
 
 # Get existing firewall rules to avoid duplicates
