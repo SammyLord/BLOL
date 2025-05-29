@@ -47,6 +47,7 @@ The following binaries are excluded from blocking by default (commonly used legi
 - `update.exe` - Various update utilities
 - `winget.exe` - Windows Package Manager
 - `msedge.exe` - Microsoft Edge browser
+- ...and more!
 
 ## Security Considerations
 
@@ -90,9 +91,9 @@ Get-NetFirewallRule -DisplayName "BLOL - *" | Remove-NetFirewallRule
 
 ## Contributing
 
-This script is based on original work by John Hammond and modified by NodeMixaholic. 
+This script is based on original work by [John Hammond](https://youtu.be/x7L-F4yDXvI) and modified by myself (NodeMixaholic.)
 
-- Original LOLBAS Project: https://lolbas-project.github.io/
+- [LOLBAS Project](https://lolbas-project.github.io/) provides the list of binaries to block - don't bug me to add any!
 - Report issues or suggest improvements through the appropriate channels
 
 ## Disclaimer
