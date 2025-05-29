@@ -8,14 +8,15 @@ $blockedPaths = @{}
 $jobs = @()
 $maxConcurrentJobs = 25
 
-
-foreach ($entry in $lolbasData.PSObject.Properties.value){
+foreach ($entry in $lolbasData) {
     $name = $entry.Name
-    if ($entry.Full_Path){
+    if ($entry.Full_Path) {
         foreach ($path in $entry.Full_Path) {
             if (Test-Path $path.Path -ErrorAction SilentlyContinue) {
+                # Check if firewall rule already exists
+                $existingRule = Get-NetFirewallRule -DisplayName "BLOL - $name" -ErrorAction SilentlyContinue
                 if (-not $existingRule) {
-                    $blockedPaths[$path] = "$name"
+                    $blockedPaths[$path.Path] = $name
                 }
             }
         }
@@ -23,21 +24,28 @@ foreach ($entry in $lolbasData.PSObject.Properties.value){
 }
 
 foreach ($kvp in $blockedPaths.GetEnumerator()) {
-    while ( @(Get-Job -State Running).Count -ge $maxConcurrentJobs) {
+    while (@(Get-Job -State Running).Count -ge $maxConcurrentJobs) {
         Start-Sleep 1
     }
     $path = $kvp.Key
     $name = $kvp.Value
     $jobs += Start-Job -ScriptBlock {
-        param($displayName, $path)
-        $exists = Get-NetFirewallRule -DisplayName "BLOL" -ErrorAction SilentlyContinue
-        if (-not $exists) {
-            New-NetFirewallRule -DisplayName "BLOL" -Direction Outbound -Action Block -Program $path.Path -Profile Any -Enabled True -ErrorAction SilentlyContinue
-            Write-Host "[+] Blocked: $path"
+        param($displayName, $pathToBlock)
+        $exists = Get-NetFirewallRule -DisplayName "BLOL - $displayName" -ErrorAction SilentlyContinue
+        if ((-not $exists) -and 
+            (-not $pathToBlock -match "chrome.exe") -and 
+            (-not $pathToBlock -match "AppInstaller.exe") -and 
+            (-not $pathToBlock -match "wsl.exe") -and 
+            (-not $pathToBlock -match "cmd.exe") -and 
+            (-not $pathToBlock -match "update.exe") -and 
+            (-not $pathToBlock -match "winget.exe") -and 
+            (-not $pathToBlock -match "msedge.exe")) {
+            New-NetFirewallRule -DisplayName "BLOL - $displayName" -Direction Outbound -Action Block -Program $pathToBlock -Profile Any -Enabled True
+            Write-Host "[+] Blocked: $pathToBlock"
         } else {
-            Write-Host "[!] Already Exists Or Exception Made: $path"
+            Write-Host "[!] Already Exists Or Exception Made: $pathToBlock"
         }
-    }
+    } -ArgumentList $name, $path
 }
 
 Write-Host "[?] Waiting for all jobs to run..."
