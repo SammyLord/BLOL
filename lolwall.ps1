@@ -31,7 +31,7 @@ foreach ($kvp in $blockedPaths.GetEnumerator()) {
     $jobs += Start-Job -ScriptBlock {
         param($displayName, $path)
         $exists = Get-NetFirewallRule -DisplayName "BLOL - $name" -ErrorAction SilentlyContinue
-        if ( (-not $exists) -and (-not $path.Path -match "chrome.exe") -and (-not $path.Path -match "AppInstaller.exe") -and (-not $path.Path -match "wsl.exe") -and (-not $path.Path -match "cmd.exe") -and (-not $path.Path -match "update.exe")-and (-not $path.Path -match "winget.exe") -and (-not $path.Path -match "msedge.exe")) {
+        if (-not $exists) {
             New-NetFirewallRule -DisplayName "BLOL - $name" -Direction Outbound -Action Block -Program $path.Path -Profile Any -Enabled True
             Write-Host "[+] Blocked: $path"
         } else {
