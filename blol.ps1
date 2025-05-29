@@ -23,7 +23,8 @@ $exceptions = @(
     "update.exe",
     "winget.exe",
     "msedge.exe",
-    "bash.exe"
+    "bash.exe",
+    "explorer.exe"
 )
 
 # Get existing firewall rules to avoid duplicates
