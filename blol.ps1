@@ -24,7 +24,8 @@ $exceptions = @(
     "winget.exe",
     "msedge.exe",
     "bash.exe",
-    "explorer.exe"
+    "explorer.exe",
+    "ssh.exe"
 )
 
 # Get existing firewall rules to avoid duplicates
