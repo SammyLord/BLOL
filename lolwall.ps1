@@ -38,7 +38,7 @@ foreach ($kvp in $blockedPaths.GetEnumerator()) {
         } else {
             Write-Host "[!] Already Exists Or Exception Made: $path"
         }
-    } -ArgumentList $displayName $path
+    } -ArgumentList $displayName $path.Path
 }
 
 Write-Host "[?] Waiting for all jobs to run..."
