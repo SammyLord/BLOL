@@ -30,9 +30,9 @@ foreach ($kvp in $blockedPaths.GetEnumerator()) {
     $name = $kvp.Value
     $jobs += Start-Job -ScriptBlock {
         param($displayName, $path)
-        $exists = Get-NetFirewallRule -DisplayName "BLOL - $name" -ErrorAction SilentlyContinue
+        $exists = Get-NetFirewallRule -DisplayName "BLOL" -ErrorAction SilentlyContinue
         if (-not $exists) {
-            New-NetFirewallRule -DisplayName "BLOL - $name" -Direction Outbound -Action Block -Program $path.Path -Profile Any -Enabled True
+            New-NetFirewallRule -DisplayName "BLOL" -Direction Outbound -Action Block -Program $path.Path -Profile Any -Enabled True -ErrorAction SilentlyContinue
             Write-Host "[+] Blocked: $path"
         } else {
             Write-Host "[!] Already Exists Or Exception Made: $path"
